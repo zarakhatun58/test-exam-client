@@ -74,6 +74,12 @@ const timerSlice = createSlice({
       state.isWarning = false;
       state.isCritical = false;
     },
+    setWarning: (state, action: PayloadAction<boolean>) => {
+      state.isWarning = action.payload;
+    },
+    setCritical: (state, action: PayloadAction<boolean>) => {
+      state.isCritical = action.payload;
+    },
   },
 });
 
@@ -85,6 +91,8 @@ export const {
   tick,
   setTimeRemaining,
   resetTimer,
+  setWarning,
+  setCritical,
 } = timerSlice.actions;
 
 export default timerSlice.reducer;
