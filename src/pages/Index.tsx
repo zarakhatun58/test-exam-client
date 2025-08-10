@@ -118,7 +118,7 @@ const Index = () => {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link to="/auth/register">
+              <Link to="/dashboard/assessment">
                 <Button size="lg" className="gradient-primary text-primary-foreground shadow-primary">
                   Start Assessment
                   <ArrowRight className="ml-2 w-5 h-5" />
@@ -271,7 +271,7 @@ const Index = () => {
             <div>
               <h4 className="font-semibold text-foreground mb-4">Platform</h4>
               <ul className="space-y-2 text-sm text-muted-foreground">
-                <li><Link to="/auth/register" className="hover:text-foreground transition-colors">Assessment</Link></li>
+                <li><Link to="/assessment" className="hover:text-foreground transition-colors">Assessment</Link></li>
                 <li><Link to="/auth/login" className="hover:text-foreground transition-colors">Certificates</Link></li>
                 <li><Link to="/auth/login" className="hover:text-foreground transition-colors">Results</Link></li>
               </ul>

@@ -88,7 +88,7 @@ const DashboardSidebar: React.FC = () => {
             </div>
             <div>
               <p className="font-medium text-sidebar-foreground">
-                {user?.firstName} {user?.lastName}
+                {user?.name}
               </p>
               <p className="text-xs text-sidebar-foreground/70 capitalize">
                 {user?.role}

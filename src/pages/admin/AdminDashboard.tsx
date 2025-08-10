@@ -335,7 +335,7 @@ const AdminDashboard: React.FC = () => {
                       {usersData?.data?.data.map((user: User) => (
                         <TableRow key={user.id}>
                           <TableCell className="font-medium">
-                            {user.firstName} {user.lastName}
+                            {user.name}
                           </TableCell>
                           <TableCell>{user.email}</TableCell>
                           <TableCell>{getUserRoleBadge(user.role)}</TableCell>

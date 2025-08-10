@@ -233,7 +233,7 @@ const Certificates: React.FC = () => {
                   {certificatesData?.data?.map((certificate: Certificate) => (
                     <TableRow key={certificate.id}>
                       <TableCell className="font-medium">
-                        {user.firstName} {user.lastName}
+                        {user.name}
                       </TableCell>
                       <TableCell className="font-mono text-sm">
                         {certificate.userId.slice(-8).toUpperCase()}

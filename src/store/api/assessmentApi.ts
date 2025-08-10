@@ -17,8 +17,19 @@ import {
 } from '@/types';
 
 // Base query with authentication
+// const baseQuery = fetchBaseQuery({
+//   baseUrl: '/api/assessment',
+//   prepareHeaders: (headers, { getState }) => {
+//     const token = (getState() as RootState).auth.accessToken;
+//     if (token) {
+//       headers.set('authorization', `Bearer ${token}`);
+//     }
+//     return headers;
+//   },
+// });
+
 const baseQuery = fetchBaseQuery({
-  baseUrl: '/api/assessment',
+  baseUrl: 'http://localhost:4000/api/assessment',
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootState).auth.accessToken;
     if (token) {

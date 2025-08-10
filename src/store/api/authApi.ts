@@ -4,19 +4,30 @@
 
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { RootState } from '../index';
-import { 
-  ApiResponse, 
-  User, 
-  LoginForm, 
-  RegisterForm, 
-  ForgotPasswordForm, 
+import {
+  ApiResponse,
+  User,
+  LoginForm,
+  RegisterForm,
+  ForgotPasswordForm,
   ResetPasswordForm,
-  OTPVerificationForm 
+  OTPVerificationForm
 } from '@/types';
 
 // Base query with authentication
+// const baseQuery = fetchBaseQuery({
+//   baseUrl: '/api/auth',
+//   prepareHeaders: (headers, { getState }) => {
+//     const token = (getState() as RootState).auth.accessToken;
+//     if (token) {
+//       headers.set('authorization', `Bearer ${token}`);
+//     }
+//     return headers;
+//   },
+// });
+
 const baseQuery = fetchBaseQuery({
-  baseUrl: '/api/auth',
+  baseUrl: 'http://localhost:4000/api/auth',
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootState).auth.accessToken;
     if (token) {
@@ -25,6 +36,7 @@ const baseQuery = fetchBaseQuery({
     return headers;
   },
 });
+
 
 export const authApi = createApi({
   reducerPath: 'authApi',
@@ -66,6 +78,7 @@ export const authApi = createApi({
         body: data,
       }),
     }),
+
 
     // Resend OTP
     resendOTP: builder.mutation<ApiResponse<string>, { email: string }>({

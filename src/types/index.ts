@@ -15,8 +15,7 @@ export type UserRole = 'student' | 'admin' | 'supervisor';
 export interface User {
   id: string;
   email: string;
-  firstName: string;
-  lastName: string;
+  name: string;
   role: UserRole;
   currentLevel: AssessmentLevel | null;
   completedSteps: AssessmentStep[];
@@ -148,9 +147,8 @@ export interface LoginForm {
 export interface RegisterForm {
   email: string;
   password: string;
-  confirmPassword: string;
-  firstName: string;
-  lastName: string;
+  name: string;
+  role: UserRole
 }
 
 export interface ForgotPasswordForm {
@@ -159,7 +157,7 @@ export interface ForgotPasswordForm {
 
 export interface ResetPasswordForm {
   password: string;
-  confirmPassword: string;
+  confirmPassword:string,
   token: string;
 }
 
