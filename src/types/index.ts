@@ -38,13 +38,14 @@ export interface AuthState {
 // Question interface
 export interface Question {
   id: string;
-  competencyId: string;
+  competencyId?: string;
+  competency?: string;
   level: AssessmentLevel;
   text: string;
   options: string[];
   correctAnswer: number;
   explanation?: string;
-  createdAt: string;
+  createdAt?: string;
 }
 
 // Competency interface
@@ -59,12 +60,14 @@ export interface Competency {
 export interface AssessmentResult {
   id: string;
   userId: string;
+  sessionId?: string;
   step: AssessmentStep;
-  questions: Question[];
-  answers: number[];
+  questions?: Question[];
+  answers?: number[];
   score: number;
   percentage: number;
-  levelAchieved: AssessmentLevel | null;
+  levelAchieved?: AssessmentLevel | null;
+  certification?: string;
   timeSpent: number;
   completedAt: string;
   canProceed: boolean;
@@ -80,7 +83,8 @@ export interface AssessmentSession {
   answers: (number | null)[];
   startTime: string;
   timeLimit: number; // in seconds
-  isActive: boolean;
+  isActive?: boolean;
+  status?: string;
 }
 
 // Certificate interface

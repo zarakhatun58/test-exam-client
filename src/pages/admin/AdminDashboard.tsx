@@ -117,9 +117,8 @@ const AdminDashboard: React.FC = () => {
 
   const handleExportUsers = async () => {
     try {
-      const [trigger, result] = exportUsers();
-      const blob = await trigger().unwrap();
-      const url = window.URL.createObjectURL(blob);
+      const result = await exportUsers({ format: 'csv' }).unwrap();
+      const url = window.URL.createObjectURL(result as Blob);
       const a = document.createElement('a');
       a.href = url;
       a.download = `users-export-${format(new Date(), 'yyyy-MM-dd')}.csv`;
@@ -143,9 +142,8 @@ const AdminDashboard: React.FC = () => {
 
   const handleExportResults = async () => {
     try {
-      const [trigger, result] = exportResults();
-      const blob = await trigger().unwrap();
-      const url = window.URL.createObjectURL(blob);
+      const result = await exportResults({ format: 'csv' }).unwrap();
+      const url = window.URL.createObjectURL(result as Blob);
       const a = document.createElement('a');
       a.href = url;
       a.download = `results-export-${format(new Date(), 'yyyy-MM-dd')}.csv`;

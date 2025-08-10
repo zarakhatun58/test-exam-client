@@ -20,6 +20,7 @@ import {
 } from '@/store/slices/assessmentSlice';
 import { startTimer, setTimeRemaining, resetTimer } from '@/store/slices/timerSlice';
 import { AssessmentStep, AssessmentSession, Question } from '@/types';
+import { getQuestionsByStep, calculateResult } from '@/data/questions';
 import { toast } from '@/hooks/use-toast';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -66,11 +67,29 @@ const Assessment: React.FC = () => {
   const handleStartAssessment = async () => {
     try {
       dispatch(setLoading(true));
-      const result = await startAssessment({ step: selectedStep }).unwrap();
-      dispatch(startSession(result.data!));
-      dispatch(setTimeRemaining(result.data!.timeLimit));
-      dispatch(startTimer());
+      
+      // Generate questions for the selected step
+      const questions = getQuestionsByStep(selectedStep);
+      const timeLimit = questions.length * 60; // 1 minute per question
+      
+      // Create mock session
+      const mockSession: AssessmentSession = {
+        id: `session_${Date.now()}`,
+        userId: user!.id,
+        step: selectedStep,
+        questions,
+        answers: new Array(questions.length).fill(null),
+        startTime: new Date().toISOString(),
+        timeLimit,
+        currentQuestionIndex: 0,
+        status: 'in_progress'
+      };
+      
+      dispatch(startSession(mockSession));
+      dispatch(setTimeRemaining(timeLimit));
+      dispatch(startTimer(timeLimit));
       setHasStarted(true);
+      
       toast({
         title: "Assessment Started",
         description: `Step ${selectedStep} assessment has begun. Good luck!`,
@@ -131,17 +150,36 @@ const Assessment: React.FC = () => {
     
     try {
       dispatch(setLoading(true));
-      const result = await submitAssessment({ 
+      
+      // Calculate results using the questions and answers
+      const result = calculateResult(
+        currentSession.answers.map(a => a || 0), 
+        currentSession.questions, 
+        currentSession.step
+      );
+      
+      // Create mock result
+      const assessmentResult = {
+        id: `result_${Date.now()}`,
+        userId: user!.id,
         sessionId: currentSession.id,
-        answers: currentSession.answers.map(a => a || 0)
-      }).unwrap();
-      dispatch(addResult(result.data!));
+        step: currentSession.step,
+        score: result.score,
+        totalQuestions: result.totalQuestions,
+        percentage: result.percentage,
+        certification: result.certification,
+        canProceed: result.canProceed,
+        completedAt: new Date().toISOString(),
+        timeSpent: currentSession.timeLimit - timeRemaining
+      };
+      
+      dispatch(addResult(assessmentResult));
       dispatch(endSession());
       dispatch(resetTimer());
       
       toast({
         title: "Assessment Completed",
-        description: `Your assessment has been submitted successfully!`,
+        description: `Your assessment has been submitted successfully! ${result.certification}`,
       });
       
       navigate('/assessment/results');
@@ -190,13 +228,7 @@ const Assessment: React.FC = () => {
     const selectedAnswer = currentSession.answers[currentSession.currentQuestionIndex];
 
     return (
-      <div className="container mx-auto px-4 py-8 space-y-6">
-        <StepProgress 
-          currentStep={currentSession.step}
-          completedSteps={user.completedSteps}
-          currentLevel={user.currentLevel}
-        />
-        
+      <div className="relative min-h-screen">
         <AssessmentTimer 
           totalTime={currentSession.timeLimit}
           onTimeUp={handleTimeUp}
