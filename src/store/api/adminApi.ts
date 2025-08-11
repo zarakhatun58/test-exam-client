@@ -18,7 +18,7 @@ import {
 
 // Base query with authentication
 const baseQuery = fetchBaseQuery({
-  baseUrl: '/api/admin',
+  baseUrl: 'https://test-exam-server.onrender.com/api/admin',
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootState).auth.accessToken;
     if (token) {

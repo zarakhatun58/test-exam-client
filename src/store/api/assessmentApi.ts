@@ -29,7 +29,7 @@ import {
 // });
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: 'http://localhost:4000/api/assessment',
+  baseUrl: 'https://test-exam-server.onrender.com/api/assessment',
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootState).auth.accessToken;
     if (token) {
